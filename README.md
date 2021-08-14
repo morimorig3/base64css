@@ -2,6 +2,11 @@
 
 ドラッグアンドドロップでSVGからbackground-imageプロパティを生成します。
 
+## 技術系など
+
+* create-react-app
+* tailwindcss
+
 [デモ](https://6117a98fd4ac5aa1f0d54053--hungry-fermi-3088d8.netlify.app/)
 
 ## スクリーンショット
