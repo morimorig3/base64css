@@ -1,0 +1,3 @@
+# Base64 background-imageジェネレーター
+
+ドラッグアンドドロップでSVGからbackground-imageプロパティを生成します。
