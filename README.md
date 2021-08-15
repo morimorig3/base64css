@@ -7,7 +7,7 @@
 * create-react-app
 * tailwindcss
 
-[デモ](https://6117a98fd4ac5aa1f0d54053--hungry-fermi-3088d8.netlify.app/)
+[デモ](https://base64css.netlify.app/)
 
 ## スクリーンショット
 
