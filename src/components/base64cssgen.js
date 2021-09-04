@@ -1,10 +1,14 @@
 import { useRef, useState, useCallback } from 'react';
+import Modalwindow from 'components/modalWindow';
 
 const Base64CssGen = () => {
   let fileList = useRef([]);
   const [files, setFiles] = useState([]);
+  const [modalIsOpen, setIsOpen] = useState(false);
 
   const resetFiles = useCallback(() => setFiles([]), []);
+  const clearButton = () => setIsOpen(true);
+
   const isMatchExtend = useCallback(
     (string) => new RegExp('([^s]+(\\.(jpg|png|gif|svg))$)', 'i').test(string),
     []
@@ -53,6 +57,8 @@ const Base64CssGen = () => {
     e.preventDefault();
     e.dataTransfer.dropEffect = 'copy';
   };
+  console.log(files);
+
   return (
     <>
       <div
@@ -63,12 +69,24 @@ const Base64CssGen = () => {
       >
         Drag and Drop
       </div>
-      <button
-        className="bg-blue-400 hover:bg-blue-500 transition-colors font-bold py-2 px-4 rounded text-white"
-        onClick={resetFiles}
-      >
-        リセット
-      </button>
+      {files.length ? (
+        <button
+          className="bg-blue-400 hover:bg-blue-500 transition-colors font-bold py-2 px-4 rounded text-white"
+          onClick={clearButton}
+        >
+          リセット
+        </button>
+      ) : (
+        <button className="bg-blue-400 font-bold py-2 px-4 rounded text-white pointer-events-none opacity-50">
+          リセット
+        </button>
+      )}
+      <Modalwindow
+        modalIsOpen={modalIsOpen}
+        setIsOpen={setIsOpen}
+        executeFunc={resetFiles}
+        modaltext="すべてのボードを削除しますか？"
+      />
       <ul id="files">
         {files.map((file, index) => (
           <li className="py-6" key={index}>
