@@ -1,6 +1,7 @@
 import { useRef, useState, useCallback } from 'react';
 import Modalwindow from 'components/modalWindow';
 import ItemList from './itemList';
+import DndArea from './DndArea';
 
 const Base64CssGen = () => {
   let fileList = useRef([]);
@@ -53,23 +54,9 @@ const Base64CssGen = () => {
     processFile(files);
   };
 
-  // ブラウザのデフォルト動作をキャンセル
-  const handleDragOver = (e) => {
-    e.preventDefault();
-    e.dataTransfer.dropEffect = 'copy';
-  };
-  console.log(files);
-
   return (
     <>
-      <div
-        id="drop"
-        className="h-24 bg-green-100 border-green-400 border-2 text-gray-400 p-2 mb-4"
-        onDrop={handleDrop}
-        onDragOver={handleDragOver}
-      >
-        Drag and Drop
-      </div>
+      <DndArea onDrop={handleDrop} />
       {files.length ? (
         <button
           className="bg-blue-400 hover:bg-blue-500 transition-colors font-bold py-2 px-4 rounded text-white"
