@@ -1,57 +1,18 @@
-import { useRef, useState, useCallback } from 'react';
+import { useState } from 'react';
 import Modalwindow from 'components/modalWindow';
 import ItemList from './itemList';
 import DndArea from './DndArea';
+import useFiles from 'hooks/useFiles';
 
 const Base64CssGen = () => {
-  let fileList = useRef([]);
-  const [files, setFiles] = useState([]);
   const [modalIsOpen, setIsOpen] = useState(false);
+  const [files, addFiles, resetFiles] = useFiles();
 
-  const resetFiles = useCallback(() => setFiles([]), []);
   const clearButton = () => setIsOpen(true);
 
-  const isMatchExtend = useCallback(
-    (string) => new RegExp('([^s]+(\\.(jpg|png|gif|svg))$)', 'i').test(string),
-    []
-  );
-
-  const readFileAsync = (file) => {
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-
-      reader.onload = () => resolve(reader.result);
-      reader.onerror = reject;
-      reader.readAsDataURL(file);
-    });
-  };
-
-  const processFile = async (files) => {
-    try {
-      const data = await Promise.all(
-        files.map(async (file) => {
-          const dataURL = await readFileAsync(file);
-          return {
-            name: file.name,
-            type: file.type,
-            size: file.size,
-            data: dataURL,
-          };
-        })
-      );
-      fileList.current = data;
-      setFiles(fileList.current);
-    } catch (err) {
-      console.error(err);
-    }
-  };
-
-  const handleDrop = (e) => {
-    e.preventDefault();
-    const files = Array.from(e.dataTransfer.files).filter((file) =>
-      isMatchExtend(file.name)
-    );
-    processFile(files);
+  const handleDrop = (event) => {
+    event.preventDefault();
+    addFiles(event.dataTransfer.files);
   };
 
   return (
