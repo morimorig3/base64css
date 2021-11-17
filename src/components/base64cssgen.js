@@ -1,5 +1,6 @@
 import { useRef, useState, useCallback } from 'react';
 import Modalwindow from 'components/modalWindow';
+import ItemList from './itemList';
 
 const Base64CssGen = () => {
   let fileList = useRef([]);
@@ -40,7 +41,7 @@ const Base64CssGen = () => {
       fileList.current = data;
       setFiles(fileList.current);
     } catch (err) {
-      console.log(err);
+      console.error(err);
     }
   };
 
@@ -87,27 +88,7 @@ const Base64CssGen = () => {
         executeFunc={resetFiles}
         modaltext="すべてのボードを削除しますか？"
       />
-      <ul id="files">
-        {files.map((file, index) => (
-          <li className="py-6" key={index}>
-            <p className="font-bold mb-2">
-              {file.name} ({file.type}, {file.size}bytes)
-            </p>
-            <div className="flex gap-x-4">
-              <textarea
-                className="w-full border-2"
-                defaultValue={`background-image: url('${file.data}');`}
-              ></textarea>
-              <div
-                className="bg-no-repeat bg-contain w-40 h-40"
-                style={{
-                  backgroundImage: `url('${file.data}')`,
-                }}
-              ></div>
-            </div>
-          </li>
-        ))}
-      </ul>
+      <ItemList files={files} />
     </>
   );
 };
