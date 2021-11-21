@@ -1,5 +1,4 @@
 const ItemList = ({ files }) => {
-  console.log(files);
   return (
     <ul id="files">
       {files.map((file, index) => (
