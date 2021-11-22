@@ -1,6 +1,12 @@
-const DndArea = ({ onDrop }) => {
+import React, { VFC } from 'react';
+
+type Props = {
+  onDrop: () => void;
+};
+
+const DndArea: VFC<Props> = ({ onDrop = () => undefined }) => {
   // ブラウザのデフォルト動作をキャンセル
-  const handleDragOver = (event) => {
+  const handleDragOver = (event: React.DragEvent<HTMLDivElement>) => {
     event.preventDefault();
     event.dataTransfer.dropEffect = 'copy';
   };
