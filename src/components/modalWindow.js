@@ -5,14 +5,13 @@ Modal.setAppElement('#root');
 
 const Modalwindow = ({
   modalIsOpen = false,
-  setIsOpen = () => undefined,
+  closeModal = () => undefined,
   executeFunc = () => undefined,
   modaltext = '',
 }) => {
-  const closeModal = () => setIsOpen(false);
   const confirmed = () => {
     executeFunc();
-    setIsOpen(false);
+    closeModal();
   };
 
   return (

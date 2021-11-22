@@ -1,14 +1,14 @@
-import { useState } from 'react';
 import Modalwindow from 'components/modalWindow';
 import ItemList from './itemList';
 import DndArea from './DndArea';
 import useFiles from 'hooks/useFiles';
+import useModal from 'hooks/useModal';
 
 const Base64CssGen = () => {
-  const [modalIsOpen, setIsOpen] = useState(false);
   const [files, addFiles, resetFiles] = useFiles();
+  const [isOpen, openModal, closeModal] = useModal();
 
-  const clearButton = () => setIsOpen(true);
+  const clearButton = () => openModal();
 
   const handleDrop = (event) => {
     event.preventDefault();
@@ -31,10 +31,10 @@ const Base64CssGen = () => {
         </button>
       )}
       <Modalwindow
-        modalIsOpen={modalIsOpen}
-        setIsOpen={setIsOpen}
+        modalIsOpen={isOpen}
+        closeModal={closeModal}
         executeFunc={resetFiles}
-        modaltext="すべてのボードを削除しますか？"
+        modaltext="すべて削除しますか？"
       />
       <ItemList files={files} />
     </>
