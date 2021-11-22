@@ -1,9 +1,17 @@
+import { VFC } from 'react';
 import Modal from 'react-modal';
 import style from '../styles/Modalwindow.module.css';
 
+type Props = {
+  modalIsOpen: boolean;
+  closeModal: () => void;
+  executeFunc: () => void;
+  modaltext: string;
+};
+
 Modal.setAppElement('#root');
 
-const Modalwindow = ({
+const Modalwindow: VFC<Props> = ({
   modalIsOpen = false,
   closeModal = () => undefined,
   executeFunc = () => undefined,
