@@ -1,7 +1,7 @@
 import React, { VFC } from 'react';
 
 type Props = {
-  onDrop: () => void;
+  onDrop: (event: React.DragEvent<HTMLDivElement>) => void;
 };
 
 const DndArea: VFC<Props> = ({ onDrop = () => undefined }) => {
