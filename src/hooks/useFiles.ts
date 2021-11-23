@@ -55,7 +55,7 @@ const useFiles = () => {
       console.error(err);
     }
   };
-  return [data, addData, resetData];
+  return { data, addData, resetData };
 };
 
 export default useFiles;
