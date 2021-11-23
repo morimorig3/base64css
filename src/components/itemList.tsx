@@ -1,19 +1,19 @@
 import { VFC } from 'react';
 
-type file = {
+type data = {
   name: string;
   type: string;
-  size: string;
-  data: string;
+  size: number;
+  dataURL: unknown;
 };
 
 type Props = {
-  files: file[];
+  files: data[];
 };
 
 const ItemList: VFC<Props> = ({ files }) => (
   <ul id="files">
-    {files.map(({ name, type, size, data }: file, index: number) => (
+    {files.map(({ name, type, size, dataURL }: data, index: number) => (
       <li className="py-6" key={index}>
         <p className="font-bold mb-2">
           {name} ({type}, {size}bytes)
@@ -21,12 +21,12 @@ const ItemList: VFC<Props> = ({ files }) => (
         <div className="flex gap-x-4">
           <textarea
             className="w-full border-2"
-            defaultValue={`background-image: url('${data}');`}
+            defaultValue={`background-image: url('${dataURL}');`}
           ></textarea>
           <div
             className="bg-no-repeat bg-contain w-40 h-40"
             style={{
-              backgroundImage: `url('${data}')`,
+              backgroundImage: `url('${dataURL}')`,
             }}
           ></div>
         </div>
