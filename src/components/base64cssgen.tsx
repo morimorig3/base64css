@@ -1,24 +1,44 @@
+import { VFC } from 'react';
 import Modalwindow from 'components/modalWindow';
 import ItemList from './itemList';
 import DndArea from './DndArea';
 import useFiles from 'hooks/useFiles';
 import useModal from 'hooks/useModal';
 
-const Base64CssGen = () => {
-  const [files, addFiles, resetFiles] = useFiles();
-  const [isOpen, openModal, closeModal] = useModal();
+type data = {
+  name: string;
+  type: string;
+  size: number;
+  dataURL: unknown;
+};
+
+type useModalType = {
+  isOpen: boolean;
+  openModal: () => void;
+  closeModal: () => void;
+};
+
+type useFilesType = {
+  data: data[];
+  addData: (dataTransferFiles: FileList) => void;
+  resetData: () => void;
+};
+
+const Base64CssGen: VFC = () => {
+  const { data, addData, resetData }: useFilesType = useFiles();
+  const { isOpen, openModal, closeModal }: useModalType = useModal();
 
   const clearButton = () => openModal();
 
-  const handleDrop = (event) => {
+  const handleDrop = (event: React.DragEvent<HTMLDivElement>) => {
     event.preventDefault();
-    addFiles(event.dataTransfer.files);
+    addData(event.dataTransfer.files);
   };
 
   return (
     <>
       <DndArea onDrop={handleDrop} />
-      {files.length ? (
+      {data.length ? (
         <button
           className="bg-blue-400 hover:bg-blue-500 transition-colors font-bold py-2 px-4 rounded text-white"
           onClick={clearButton}
@@ -33,10 +53,10 @@ const Base64CssGen = () => {
       <Modalwindow
         modalIsOpen={isOpen}
         closeModal={closeModal}
-        executeFunc={resetFiles}
+        executeFunc={resetData}
         modaltext="すべて削除しますか？"
       />
-      <ItemList files={files} />
+      <ItemList files={data} />
     </>
   );
 };
