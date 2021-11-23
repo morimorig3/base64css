@@ -1,18 +1,25 @@
 import { useState, useCallback } from 'react';
 import { isMatchExtend } from 'util/functions';
 
+type file = {
+  name: string;
+  type: string;
+  size: number;
+  data: unknown;
+};
+
 const useFiles = () => {
-  const [data, setData] = useState([]);
-  const [files, setFiles] = useState([]);
+  const [data, setData] = useState<File[]>([]);
+  const [files, setFiles] = useState<file[]>([]);
   const resetFiles = useCallback(() => {
     setData([]);
     setFiles([]);
   }, []);
 
-  const addFiles = (dataTransferFiles) => {
+  const addFiles = (dataTransferFiles: FileList): void => {
     const newData = [
       ...data,
-      ...Array.from(dataTransferFiles).filter((file) =>
+      ...Array.from(dataTransferFiles).filter((file: File) =>
         isMatchExtend(file.name)
       ),
     ];
@@ -20,7 +27,7 @@ const useFiles = () => {
     processFile(newData);
   };
 
-  const readFileAsync = (file) => {
+  const readFileAsync = (file: File) => {
     return new Promise((resolve, reject) => {
       const reader = new FileReader();
 
@@ -30,10 +37,10 @@ const useFiles = () => {
     });
   };
 
-  const processFile = async (files) => {
+  const processFile = async (files: File[]) => {
     try {
       const dataList = await Promise.all(
-        files.map(async (file) => {
+        files.map(async (file: File) => {
           const dataURL = await readFileAsync(file);
           return {
             name: file.name,
@@ -48,7 +55,6 @@ const useFiles = () => {
       console.error(err);
     }
   };
-
   return [files, addFiles, resetFiles];
 };
 
