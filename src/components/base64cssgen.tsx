@@ -1,38 +1,18 @@
 import { VFC } from 'react';
-import Modalwindow from 'components/modalWindow';
-import ItemList from './itemList';
-import DndArea from './DndArea';
 import useFiles from 'hooks/useFiles';
 import useModal from 'hooks/useModal';
-
-type data = {
-  name: string;
-  type: string;
-  size: number;
-  dataURL: unknown;
-};
-
-type useModalType = {
-  isOpen: boolean;
-  openModal: () => void;
-  closeModal: () => void;
-};
-
-type useFilesType = {
-  data: data[];
-  addData: (dataTransferFiles: FileList) => void;
-  resetData: () => void;
-};
+import Modalwindow from 'components/modalWindow';
+import ItemList from 'components/itemList';
+import DndArea from 'components/DndArea';
 
 const Base64CssGen: VFC = () => {
-  const { data, addData, resetData }: useFilesType = useFiles();
-  const { isOpen, openModal, closeModal }: useModalType = useModal();
+  const { data, addData, resetData } = useFiles();
+  const { isOpen, openModal, closeModal } = useModal();
 
-  const clearButton = () => openModal();
-
-  const handleDrop = (event: React.DragEvent<HTMLDivElement>) => {
+  const handleDrop = async (event: React.DragEvent<HTMLDivElement>) => {
     event.preventDefault();
-    addData(event.dataTransfer.files);
+
+    await addData(event.dataTransfer.files);
   };
 
   return (
@@ -40,13 +20,19 @@ const Base64CssGen: VFC = () => {
       <DndArea onDrop={handleDrop} />
       {data.length ? (
         <button
-          className="bg-blue-400 hover:bg-blue-500 transition-colors font-bold py-2 px-4 rounded text-white"
-          onClick={clearButton}
+          className="bg-blue-400 hover:bg-blue-500 transition-colors
+          font-bold py-2 px-4 rounded text-white"
+          onClick={openModal}
+          type="button"
         >
           リセット
         </button>
       ) : (
-        <button className="bg-blue-400 font-bold py-2 px-4 rounded text-white pointer-events-none opacity-50">
+        <button
+          className="bg-blue-400 font-bold py-2 px-4 rounded
+          text-white pointer-events-none opacity-50"
+          type="button"
+        >
           リセット
         </button>
       )}

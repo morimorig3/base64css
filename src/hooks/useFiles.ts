@@ -1,60 +1,38 @@
-import { useState, useCallback, useRef } from 'react';
-import { isMatchExtend } from 'util/functions';
-
-type data = {
-  name: string;
-  type: string;
-  size: number;
-  dataURL: unknown;
-};
+import { useState, useCallback } from 'react';
+import { isMatchExtend, getDataURLAsync } from 'util/functions';
+import { base64Data } from 'types';
+import { uuid } from 'uuidv4';
 
 const useFiles = () => {
-  let rawData = useRef<File[]>([]);
-  const [data, setData] = useState<data[]>([]);
+  const [data, setData] = useState<base64Data[]>([]);
   const resetData = useCallback(() => {
-    rawData.current = [];
     setData([]);
   }, []);
 
-  const addData = (dataTransferFiles: FileList): void => {
-    const newRawData = [
-      ...rawData.current,
-      ...Array.from(dataTransferFiles).filter((file: File) =>
-        isMatchExtend(file.name)
-      ),
-    ];
-    rawData.current = newRawData;
-    processFile(rawData.current);
-  };
+  const loadFile = async (files: File[]) => {
+    const fileList = files.map(async (file: File) => {
+      const dataURL = await getDataURLAsync(file);
 
-  const readFileAsync = (file: File) => {
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader();
+      return {
+        name: file.name,
+        type: file.type,
+        size: file.size,
+        dataURL,
+        id: uuid(),
+      };
+    });
 
-      reader.onload = () => resolve(reader.result);
-      reader.onerror = reject;
-      reader.readAsDataURL(file);
+    await Promise.all(fileList).then((res: base64Data[]) => {
+      setData([...data, ...res]);
     });
   };
+  const addData = async (dataTransferFiles: FileList) => {
+    const files = Array.from(dataTransferFiles);
+    const filteredFiles = [...files.filter((file: File) => isMatchExtend(file.name))];
 
-  const processFile = async (files: File[]) => {
-    try {
-      const dataList = await Promise.all(
-        files.map(async (file: File) => {
-          const dataURL = await readFileAsync(file);
-          return {
-            name: file.name,
-            type: file.type,
-            size: file.size,
-            dataURL: dataURL,
-          };
-        })
-      );
-      setData([...dataList]);
-    } catch (err) {
-      console.error(err);
-    }
+    await loadFile(filteredFiles);
   };
+
   return { data, addData, resetData };
 };
 
