@@ -2,6 +2,7 @@ module.exports = {
   env: {
     browser: true,
     es2021: true,
+    jest: true,
   },
   extends: [
     'plugin:react/recommended',
@@ -28,6 +29,7 @@ module.exports = {
   rules: {
     'react/jsx-uses-react': 'off',
     'react/react-in-jsx-scope': 'off',
+    'object-curly-newline': 'off',
     'lines-between-class-members': [
       'error',
       'always',
@@ -80,10 +82,7 @@ module.exports = {
         explicitSpread: 'ignore',
       },
     ],
-    'react/function-component-definition': [
-      2,
-      { namedComponents: 'arrow-function' },
-    ],
+    'react/function-component-definition': [2, { namedComponents: 'arrow-function' }],
   },
   overrides: [
     {
