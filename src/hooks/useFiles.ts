@@ -3,7 +3,11 @@ import { isMatchExtend, getDataURLAsync } from 'util/functions';
 import { base64Data } from 'types';
 import { uuid } from 'uuidv4';
 
-const useFiles = () => {
+const useFiles = (): {
+  data: base64Data[];
+  addData: (dataTransferFiles: FileList) => Promise<void>;
+  resetData: () => void;
+} => {
   const [data, setData] = useState<base64Data[]>([]);
   const resetData = useCallback(() => {
     setData([]);
@@ -11,12 +15,14 @@ const useFiles = () => {
 
   const loadFile = async (files: File[]) => {
     const fileList = files.map(async (file: File) => {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       const dataURL = await getDataURLAsync(file);
 
       return {
         name: file.name,
         type: file.type,
         size: file.size,
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
         dataURL,
         id: uuid(),
       };
