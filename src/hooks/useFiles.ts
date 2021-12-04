@@ -1,7 +1,7 @@
 import { useState, useCallback } from 'react';
 import { isMatchExtend, getDataURLAsync } from 'util/functions';
 import { base64Data } from 'types';
-import { uuid } from 'uuidv4';
+import { v4 } from 'uuid';
 
 const useFiles = (): {
   data: base64Data[];
@@ -24,7 +24,7 @@ const useFiles = (): {
         size: file.size,
         // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
         dataURL,
-        id: uuid(),
+        id: v4(),
       };
     });
 
