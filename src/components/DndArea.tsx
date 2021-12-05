@@ -5,11 +5,8 @@ type Props = {
 };
 
 const DndArea: VFC<Props> = ({ onDrop = () => undefined }) => {
-  // ブラウザのデフォルト動作をキャンセル
   const handleDragOver = (event: React.DragEvent<HTMLDivElement>) => {
     event.preventDefault();
-    // eslint-disable-next-line no-param-reassign
-    event.dataTransfer.dropEffect = 'copy';
   };
 
   return (
