@@ -15,14 +15,12 @@ const useFiles = (): {
 
   const loadFile = async (files: File[]) => {
     const fileList = files.map(async (file: File) => {
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       const dataURL = await getDataURLAsync(file);
 
       return {
         name: file.name,
         type: file.type,
         size: file.size,
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
         dataURL,
         id: v4(),
       };
