@@ -4,6 +4,7 @@ import useModal from 'hooks/useModal';
 import Modalwindow from 'components/modalWindow';
 import ItemList from 'components/itemList';
 import DndArea from 'components/DndArea';
+import Button from './Button';
 
 const Base64CssGen: VFC = () => {
   const { data, addData, resetData } = useFiles();
@@ -19,22 +20,13 @@ const Base64CssGen: VFC = () => {
     <>
       <DndArea onDrop={handleDrop} />
       {data.length ? (
-        <button
-          className="bg-blue-400 hover:bg-blue-500 transition-colors
-          font-bold py-2 px-4 rounded text-white"
-          onClick={openModal}
-          type="button"
-        >
+        <Button className="bg-blue-400 hover:bg-blue-500 text-white" onClick={openModal}>
           リセット
-        </button>
+        </Button>
       ) : (
-        <button
-          className="bg-blue-400 font-bold py-2 px-4 rounded
-          text-white pointer-events-none opacity-50"
-          type="button"
-        >
+        <Button className="bg-blue-400 pointer-events-none opacity-50 text-white" onClick={openModal}>
           リセット
-        </button>
+        </Button>
       )}
       <Modalwindow
         modalIsOpen={isOpen}
