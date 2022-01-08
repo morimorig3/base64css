@@ -7,7 +7,7 @@ type Props = {
 };
 
 export const ItemList: VFC<Props> = ({ files }) => (
-  <List id="files" w="full" spacing={4}>
+  <List data-testid="test-item-list" id="files" w="full" spacing={4}>
     {files.map(({ id, name, type, size, dataURL }) => {
       if (typeof dataURL !== 'string') return false;
 
@@ -15,7 +15,7 @@ export const ItemList: VFC<Props> = ({ files }) => (
         <ListItem key={id}>
           <Heading as="h2" fontSize="lg" mb={2}>{`${name} ${type},${size} bytes`}</Heading>
           <Flex columnGap={4}>
-            <Textarea w="full" value={`background-image: url('${dataURL}');`} />
+            <Textarea readOnly w="full" value={`background-image: url('${dataURL}');`} />
             <Box
               bgRepeat="no-repeat"
               bgSize="contain"

@@ -1,6 +1,6 @@
 import '@testing-library/jest-dom';
 import { render, RenderResult } from '@testing-library/react';
-import ItemList from 'components/itemList';
+import { ItemList } from 'components/itemList';
 import { base64Data } from 'types';
 
 const file: base64Data = {
@@ -20,8 +20,8 @@ describe('ファイルを一つ渡した時', () => {
     renderResult.unmount();
   });
   test('リストにアイテム一つ表示', () => {
-    const { getByRole } = renderResult;
-    const list = getByRole('list');
+    const { getByTestId } = renderResult;
+    const list = getByTestId('test-item-list');
     expect(list).not.toBeEmptyDOMElement();
   });
 });

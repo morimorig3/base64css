@@ -11,13 +11,13 @@ describe('初期状態', () => {
     renderResult.unmount();
   });
   test('base64リストが一つも表示されていない', () => {
-    const { getByRole } = renderResult;
-    const list = getByRole('list');
+    const { getByTestId } = renderResult;
+    const list = getByTestId('test-item-list');
     expect(list).toBeEmptyDOMElement();
   });
   test('クリアボタンが非活性状態になっている', () => {
     const { getByRole } = renderResult;
     const button = getByRole('button');
-    expect(button).toHaveClass('pointer-events-none');
+    expect(button).toHaveAttribute('disabled');
   });
 });
