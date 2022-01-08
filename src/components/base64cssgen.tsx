@@ -1,14 +1,13 @@
 import { VFC } from 'react';
 import useFiles from 'hooks/useFiles';
-import useModal from 'hooks/useModal';
 import { Modalwindow } from 'components/modalWindow';
 import { ItemList } from 'components/itemList';
 import { DndArea } from 'components/dndArea';
-import { Button } from '@chakra-ui/react';
+import { Button, useDisclosure } from '@chakra-ui/react';
 
 const Base64CssGen: VFC = () => {
   const { data, addData, resetData } = useFiles();
-  const { isOpen, openModal, closeModal } = useModal();
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
   const handleDrop = async (event: React.DragEvent<HTMLDivElement>) => {
     event.preventDefault();
@@ -20,20 +19,15 @@ const Base64CssGen: VFC = () => {
     <>
       <DndArea onDrop={handleDrop} />
       {data.length ? (
-        <Button colorScheme="blue" size="md" isDisabled={false} onClick={openModal}>
+        <Button colorScheme="blue" size="md" isDisabled={false} onClick={onOpen}>
           リセット
         </Button>
       ) : (
-        <Button colorScheme="blue" size="md" isDisabled onClick={openModal}>
+        <Button colorScheme="blue" size="md" isDisabled>
           リセット
         </Button>
       )}
-      <Modalwindow
-        modalIsOpen={isOpen}
-        closeModal={closeModal}
-        executeFunc={resetData}
-        modaltext="すべて削除しますか？"
-      />
+      <Modalwindow isOpen={isOpen} onClose={onClose} onConfirmed={resetData} title="すべて削除しますか？" />
       <ItemList files={data} />
     </>
   );
