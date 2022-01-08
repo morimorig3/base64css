@@ -1,6 +1,6 @@
 import { VFC } from 'react';
 import Modal from 'react-modal';
-import Button from 'components/Button';
+import { Text, Flex, Button } from '@chakra-ui/react';
 import style from '../styles/Modalwindow.module.css';
 
 type Props = {
@@ -11,7 +11,7 @@ type Props = {
 };
 if (process.env.NODE_ENV !== 'test') Modal.setAppElement('#root');
 
-const Modalwindow: VFC<Props> = ({
+export const Modalwindow: VFC<Props> = ({
   modalIsOpen = false,
   closeModal = () => undefined,
   executeFunc = () => undefined,
@@ -33,23 +33,17 @@ const Modalwindow: VFC<Props> = ({
         beforeClose: style.Overlay__before,
       }}
     >
-      <p className="font-bold mb-4">{modaltext}</p>
-      <div className="flex gap-4 justify-center">
-        <Button
-          className="w-24 border-red-500 hover:border-transparent hover:bg-red-500 text-red-500 hover:text-gray-100"
-          onClick={confirmed}
-        >
+      <Text fontWeight="bold" mb={4}>
+        {modaltext}
+      </Text>
+      <Flex justifyContent="center" gap={4}>
+        <Button colorScheme="red" size="md" w={24} onClick={confirmed}>
           はい
         </Button>
-        <Button
-          className="w-24 border-gray-500 hover:border-transparent hover:bg-gray-500 text-gray-500 hover:text-gray-100"
-          onClick={closeModal}
-        >
+        <Button colorScheme="gray" variant="outline" size="md" w={24} onClick={closeModal}>
           もどる
         </Button>
-      </div>
+      </Flex>
     </Modal>
   );
 };
-
-export default Modalwindow;

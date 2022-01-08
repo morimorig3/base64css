@@ -1,24 +1,30 @@
 import { VFC } from 'react';
+import { Box } from '@chakra-ui/react';
 
 type Props = {
   onDrop: (event: React.DragEvent<HTMLDivElement>) => void;
 };
 
-const DndArea: VFC<Props> = ({ onDrop = () => undefined }) => {
+export const DndArea: VFC<Props> = ({ onDrop = () => undefined }) => {
   const handleDragOver = (event: React.DragEvent<HTMLDivElement>) => {
     event.preventDefault();
   };
 
   return (
-    <div
-      className="h-24 border-green-400 bg-green-100 border-2 text-gray-400 p-2 mb-4"
+    <Box
+      w="full"
+      h={24}
+      border={2}
+      borderStyle="solid"
+      borderColor="green.100"
+      bg="green.50"
+      color="gray.400"
+      p={2}
       onDrop={onDrop}
       onDragOver={handleDragOver}
       data-testid="dnd-area"
     >
       Drag and Drop
-    </div>
+    </Box>
   );
 };
-
-export default DndArea;

@@ -1,21 +1,23 @@
 import { VFC } from 'react';
-import Layout from 'components/layout';
+import { Heading, Flex, Link, Divider, VStack } from '@chakra-ui/react';
+import { Layout } from 'components/layout';
 import Base64CssGen from 'components/base64cssgen';
 import { FaGithub } from 'react-icons/fa';
 
 const App: VFC = () => (
   <Layout>
-    <h1 className="text-lg font-bold pb-2 border-b-2 border-gray-400 border-dashed mb-4 flex justify-between">
-      Base64 background-imageジェネレーター
-      <a
-        href="https://github.com/morimorig3/base64css"
-        target="_blank"
-        rel="noreferrer"
-      >
-        <FaGithub size="1.5em" />
-      </a>
-    </h1>
-    <Base64CssGen />
+    <Flex w="full" justifyContent="space-between" alignItems="center">
+      <Heading as="h1" size="md">
+        Base64 background-imageジェネレーター
+      </Heading>
+      <Link href="https://github.com/morimorig3/base64css" isExternal>
+        <FaGithub size="2em" />
+      </Link>
+    </Flex>
+    <Divider />
+    <VStack w="full" alignItems="flex-start" spacing={5}>
+      <Base64CssGen />
+    </VStack>
   </Layout>
 );
 

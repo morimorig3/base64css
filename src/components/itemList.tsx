@@ -1,31 +1,33 @@
 import { VFC } from 'react';
 import { base64Data } from 'types';
+import { List, ListItem, Heading, Flex, Box, Textarea } from '@chakra-ui/react';
 
 type Props = {
   files: base64Data[];
 };
 
-const ItemList: VFC<Props> = ({ files }) => (
-  <ul id="files">
+export const ItemList: VFC<Props> = ({ files }) => (
+  <List id="files" w="full" spacing={4}>
     {files.map(({ id, name, type, size, dataURL }) => {
       if (typeof dataURL !== 'string') return false;
 
       return (
-        <li className="py-6" key={id}>
-          <p className="font-bold mb-2">{`${name} ${type},${size} bytes`}</p>
-          <div className="flex gap-x-4">
-            <textarea className="w-full border-2" defaultValue={`background-image: url('${dataURL}');`} />
-            <div
-              className="bg-no-repeat bg-contain w-40 h-40"
+        <ListItem key={id}>
+          <Heading as="h2" fontSize="lg" mb={2}>{`${name} ${type},${size} bytes`}</Heading>
+          <Flex columnGap={4}>
+            <Textarea w="full" value={`background-image: url('${dataURL}');`} />
+            <Box
+              bgRepeat="no-repeat"
+              bgSize="contain"
+              w={40}
+              h={40}
               style={{
                 backgroundImage: `url('${dataURL}')`,
               }}
             />
-          </div>
-        </li>
+          </Flex>
+        </ListItem>
       );
     })}
-  </ul>
+  </List>
 );
-
-export default ItemList;
